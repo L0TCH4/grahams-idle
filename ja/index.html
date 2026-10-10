@@ -1,0 +1,187 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Graham's Idle</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=STIX+Two+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDF2F4;--ink:#12232E;--mute:#586973;--card:#fff;--line:#C6D3DA;--acc:#2347F5;--ok:#0F8A5F;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1A22;--ink:#E6EEF2;--mute:#92A5B0;--card:#16262F;--line:#2A3E4A;--acc:#7B93FF;--ok:#3CCB95;--on:#0E1A22}}
+:root[data-theme="dark"]{--bg:#0E1A22;--ink:#E6EEF2;--mute:#92A5B0;--card:#16262F;--line:#2A3E4A;--acc:#7B93FF;--ok:#3CCB95;--on:#0E1A22}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif}
+main{max-width:560px;margin:0 auto;padding:16px 16px 48px}
+sub{font-size:.65em;line-height:0}
+sup{font-size:.62em;line-height:0;vertical-align:.75em}
+h1{font-weight:900;font-size:22px;margin:0;letter-spacing:.04em}
+.hd{display:flex;justify-content:space-between;align-items:baseline}
+.mute{color:var(--mute);font-size:14px}
+#num{font:italic 400 40px/1.25 "STIX Two Text",Georgia,serif;color:var(--acc);margin:18px 0 0;overflow-wrap:anywhere;min-height:50px}
+#cls{font-weight:700;margin:0 0 12px}
+.btn{background:var(--acc);color:var(--on);border:0;border-radius:10px;padding:12px 20px;font:900 17px inherit;font-family:inherit;cursor:pointer}
+.btn:disabled{background:var(--line);color:var(--mute);cursor:default}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+h2{font-size:17px;margin:26px 0 8px}
+.op{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.op.off{opacity:.45}
+.op b{font-weight:900}
+.op .d{font-size:14px;color:var(--mute);line-height:1.5}
+.op .btn{padding:9px 14px;font-size:15px;white-space:nowrap}
+#nx{border:2px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--mute);margin-bottom:10px}
+.e{border-left:5px solid var(--ok);background:var(--card);border-radius:0 10px 10px 0;padding:8px 12px;margin-bottom:8px}
+.e b{font-weight:900}
+.e .v{font:400 16px "STIX Two Text",Georgia,serif;color:var(--mute);margin-left:8px}
+.e p{margin:0;font-size:14px;line-height:1.6}
+.u{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.u span{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:14px}
+#nt{position:sticky;top:8px;background:var(--ok);color:var(--on);font-weight:700;border-radius:10px;padding:8px 12px;margin-top:10px}
+#nt:empty{display:none}
+.pgw{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:6px}
+.pgb{height:100%;width:0;background:var(--acc)}
+.why{color:var(--mute);font-weight:700}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}
+.ov[hidden]{display:none}
+.mc{background:var(--card);color:var(--ink);border:2px solid var(--acc);border-radius:14px;max-width:440px;width:100%;padding:18px 18px 16px;max-height:90vh;overflow:auto}
+.mval{font:italic 400 28px/1.3 "STIX Two Text",Georgia,serif;color:var(--acc);overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<main>
+<div class="hd"><h1>Graham's Idle</h1><span class="mute" id="ins"></span></div>
+<div class="pgw" aria-hidden="true"><div class="pgb" id="pgb"></div></div>
+<div class="mute" id="pgt" style="margin-top:2px"></div>
+<div id="nt" role="status"></div>
+<div id="num" aria-live="off"></div>
+<p id="cls"></p>
+<h2>数を育てる</h2>
+<div id="ops"></div>
+<h2>次の発見</h2>
+<div id="nx"></div>
+<div class="pgw" aria-hidden="true"><div class="pgb" style="background:var(--ok)" id="nb"></div></div>
+<div class="mute" id="np" style="margin-top:2px"></div>
+<h2>数の図鑑</h2>
+<div id="cx"></div>
+<div style="margin-top:28px"><button class="btn" id="rs" style="background:none;color:var(--mute);border:2px solid var(--line);padding:8px 14px;font-size:14px">データ消去</button>
+<span id="rc" hidden><span class="mute">本当に全部消しますか？ </span><button class="btn" id="ry" style="padding:8px 14px;font-size:14px;background:#D93B2E;color:#fff">消去する</button> <button class="btn" id="rn" style="padding:8px 14px;font-size:14px;background:var(--line);color:var(--ink)">やめる</button></span></div>
+</main>
+<div class="ov" id="md" hidden role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mc"><div class="mute" id="mg"></div><h2 id="mt" style="margin:4px 0 6px"></h2><div id="mv" class="mval"></div><p id="mb" style="margin:8px 0 14px"></p><button class="btn" id="mo">閉じる</button> <button class="btn" id="ma" style="background:var(--line);color:var(--ink)" hidden>すべて閉じる</button></div></div>
+<script>
+const L=Math.log10,pw=x=>Math.pow(10,x);
+const U=['','万','億','兆','京','垓','𥝱','穣','溝','澗','正','載','極','恒河沙','阿僧祇','那由他','不可思議','無量大数'];
+/* 数 = 10を h 段重ねた塔の頂上が t （h=0 なら t 自身） */
+function nm(h,t){if(!(t<1e300))t=1e300;while(t>=1e15){t=L(t);h++}while(h>0&&t<15){t=pw(t);h--}return{h,t}}
+const cmp=(a,b)=>{const x=a.T|0,y=b.T|0;if(x!=y)return x-y;if(x==1)return cmp(a.H,b.H);if(x==2){if(a.c&&b.c)return cmp(a.c,b.c);if(a.c)return 1;if(b.c)return -1}return x?a.t-b.t:(a.h-b.h||a.t-b.t)};
+function add(a,b){if(cmp(a,b)<0)[a,b]=[b,a];if(a.T)return a;if(!a.h)return nm(0,a.t+b.t);if(a.h>1)return a;const s=b.h?b.t:(b.t>0?L(b.t):-99);return nm(1,a.t+L(1+pw(s-a.t)))}
+const lg=b=>b.h?nm(b.h-1,b.t):{h:0,t:L(b.t)},ex=b=>nm(b.h+1,b.t);
+function mul(b,lf){if(!b.h){const x=L(b.t)+lf;return x<14.9?nm(0,pw(x)):nm(1,x)}return b.h==1?nm(1,b.t+lf):b}
+function grow(n,k,lf){let y=n;for(let i=0;i<k;i++){if(!y.h&&y.t<=1)return n;y=lg(y)}if(!y.h&&y.t<1)return n;y=mul(y,lf);for(let i=0;i<k;i++)y=ex(y);return y}
+function gh(n,k,lf){let y=n.h;for(let i=0;i<k;i++){if(y<=1)return n;y=L(y)}y*=pw(Math.min(lf,300));for(let i=0;i<k;i++)y=pw(y);return y>=7625597484987?{T:2,t:3}:nm(y,n.t)}
+function gt(n,j,lf){const f=pw(Math.min(lf,300));let a=n.t;if(j==20)a+=Math.log(f);else a*=f;return{T:3,t:Math.min(a,1e300)}}
+function ga(n,j,dt){if(n.c)return gc(n,j,dt);const q=j-13,c=C[j]*lv[j]*dt;if(q==0){const a=n.t+c;return a>=1e300?{T:2,t:1e300,c:nm(0,1e300)}:{T:2,t:a}}const t0=nm(0,n.t),y=grow(t0,q-1,.4343*c);if(y===t0)return n;if(!y.h)return{T:2,t:y.t};if(y.h==1&&y.t<300)return{T:2,t:pw(y.t)};return{T:2,t:1e300,c:y}}
+function gc(n,j,dt){const q=j-13,lf=.4343*C[j]*lv[j]*dt,c=n.c;let r;if(c.T==2){r=ga(c,j,dt);if(r.T==3||r.c||r.t>=4)return{T:3,t:2};return r===c?n:{T:2,t:1e300,c:r}}if(q==0)return n;r=q<4?grow(c,q-1,lf):gh(c,q-4,lf);return r===c?n:{T:2,t:1e300,c:r}}
+const cls=b=>b.T?0:!b.h?(b.t<=6?0:b.t<=1e6?1:2):b.h==1?(b.t<=1e6?2:3):Math.floor(b.h+1+(L(b.t)>=10?1:0));
+function fp(x){if(x>=1e15){const e=Math.floor(L(x));return(x/pw(e)).toFixed(2)+'×10<sup>'+e+'</sup>'}if(x<1e4)return Math.floor(x).toLocaleString('ja-JP');const i=Math.min(3,Math.floor(L(x)/4));return(x/pw(4*i)).toFixed(2)+U[i]}
+function tw(b){let t=L(b.t),h=b.h+1;if(t>=10){t=L(t);h++}return[h,t]}
+function fm(b){if(b.T==2)return'3↑<sup>'+(b.c?fm(b.c):b.t<10?b.t.toFixed(2):fp(b.t))+'</sup>3';if(b.T==3)return'g<sub>'+(b.t<100?b.t.toFixed(2):fp(b.t))+'</sub>';if(!b.h)return fp(b.t);if(b.h==1){if(b.t<72){const i=Math.floor(b.t/4);return pw(b.t-4*i).toFixed(2)+U[i]}const e=Math.floor(b.t);return pw(b.t-e).toFixed(2)+'×10<sup>'+fp(e)+'</sup>'}if(cls(b)<5)return b.h==2?'10<sup>'+fm({h:1,t:b.t})+'</sup>':'10<sup>10<sup>'+fm({h:1,t:b.t})+'</sup></sup>';const w=tw(b);return cls(b)>=10?'E#'+(w[0]<1e4?w[0].toFixed(2):fp(w[0])):'E'+w[1].toFixed(2)+'#'+fp(w[0])}
+const E=[];
+for(let i=1;i<=17;i++)E.push({n:U[i],v:nm(1,4*i),d:i==13?'「ガンジス川の砂」の意味。今の日本では10⁵²。':i==17?'日本語の数の単位の果て。10⁶⁸。':''});
+[['エディントン数',1,79.197,'宇宙の全陽子数の見積り。136×2²⁵⁶ ≈ 1.57×10⁷⁹。もう日本語の単位では名付けられない。'],
+['グーゴル',1,100,'9歳のミルトン・シロッタが名付けた10¹⁰⁰。Googleの名前の由来。'],
+['シャノン数',1,120,'チェスの変化の数の、控えめな見積り10¹²⁰。'],
+['センティリオン',1,303,'10³⁰³。ラテン語由来の名付け方の一つ。'],
+['A(4,2)',1,19728.3,'アッカーマン関数。2⁶⁵⁵³⁶−3、約2万桁。それでもまだクラス2。'],
+['3↑↑4',1,3.64e12,'3の3の3の3乗。矢印2本のテトレーション。指数だけで約3.6兆。'],
+['不可説不可説転',1,3.72e37,'華厳経の数 10^(7×2¹²²)。ここからクラス3。'],
+['グーゴルプレックス',1,1e100,'10のグーゴル乗。宇宙の全粒子をインクにしても10進数で書き切れない。'],
+['A(4,3)',2,19727.78,'≈10^(6×10¹⁹⁷²⁷)。アッカーマン関数は1段進むだけでグーゴルプレックスを追い抜く。'],
+['プロマキシマ',2,245,'サイビアンが見積もった宇宙の歴史の組み合わせ数 ≈10^10^245。'],
+['第1スキューズ数',3,34,'素数の個数と対数積分の大小が初めて逆転する数の上限（1933）。クラス4。'],
+['グーゴルデュプレックス',3,100,'10のグーゴルプレックス乗。10の塔3段の頂上が100。'],
+['第2スキューズ数',3,963.5,'塔の頂上は約963。ムナフォのHypercalcなら直接計算できる。'],
+['宇宙論で使われた最大の数',3,3.98e12,'ドン・ページの見積り。5段に見える塔も、頂上の10^1.1を計算すれば実質4段。'],
+['グーゴルトリプレックス',4,100,'10の塔4段の頂上が100。クラス5以上の世界。'],
+['10↑↑5',4,10,'10を5段重ねた塔。ここまでが「指数を重ねる」世界。'],['10↑↑6',5,10,'塔が1段増えるたび、前の数は無視できるほど小さくなる。'],['10↑↑7',6,10,'10を7段重ねた塔。'],['10↑↑8',7,10,'10を8段重ねた塔。'],['10↑↑9',8,10,'10を9段重ねた塔。'],['10↑↑10',9,10,'10を10段重ねた塔。ここからは塔の「高さ」そのものを育てます。'],
+['10↑↑15',14,10,'10を15段重ねた塔。'],['10↑↑20',19,10,'10を20段重ねた塔。'],['10↑↑100',99,10,'100段の塔。指数を重ねるだけでここまで来られる。'],
+['10↑↑10⁶',1e6,10,'塔の高さが100万段。'],
+['10↑↑10¹⁰',1e10,10,'塔の高さが100億段。3↑↑↑3 まであと少し。']].forEach(x=>E.push({n:x[0],v:nm(x[1],x[2]),d:x[3]}));
+[['3↑↑↑3',2,3,'3↑↑(3↑↑3)。3を約7.6兆段積んだ塔。ここから矢印の本数で数える世界。'],
+['g₁ = 3↑↑↑↑3',2,4,'グラハム数への第1段。矢印はたった4本だが、すでに塔では表せない。'],
+['3↑¹⁰ 3',2,10,'矢印10本。矢印が1本増えるごとに、前の数は無視できるほど小さくなる。'],
+['3↑¹⁰⁰ 3',2,100,'矢印100本。'],
+['3↑^グーゴル 3',2,1e100,'矢印の本数がグーゴル。それでもグラハム数の「g₂」には届かない。'],
+['g₂ = 3↑^(g₁) 3',3,2,'矢印の本数が、さっきの数 g₁ になる。グラハム数の第2段。'],
+['g₄',3,4,'矢印の本数が g₃。'],['g₁₆',3,16,'グラハム数まで、あと48段。'],['g₃₂',3,32,'半分まで来ました。'],
+['グラハム数 g₆₄',3,64,'矢印の本数を64段階で増やした数。1977年にガードナーが紹介し、1980年のギネスブックに「数学の証明で使われた最大の数」と載った。'],
+['g₁₀₀',3,100,'グラハム数を超えました。コンウェイのチェーン表記 3→3→3→3 は、さらにこの先にあります。']].forEach(x=>E.push({n:x[0],v:{T:x[1],t:x[2]},d:x[3]}));
+[['3↑^(10↑↑10) 3',nm(9,10),'矢印の本数が、10を10段重ねた塔になりました。ここから矢印の本数そのものを、塔として育てていきます。'],
+['3↑^(10↑↑10¹⁰) 3',nm(1e10,10),'矢印の本数が、100億段の塔。'],
+['3↑^(3↑↑↑3) 3',{T:2,t:3},'矢印の本数が 3↑↑↑3 になりました。本数そのものが矢印表記で表される世界です。この本数が g₁ = 3↑↑↑↑3 に届いた瞬間、g₂ になります。']].forEach(x=>E.push({n:x[0],v:{T:2,t:1e300,c:x[1]},d:x[2]}));
+E.sort((a,b)=>cmp(a.v,b.v));
+const NT=[
+{id:'jp',name:'日本語の単位（万・億・兆…）',ok:b=>!b.T&&(b.h>0||b.t>=1e4),text:'4桁ごとに区切って、万・億・兆・京…と数えます。無量大数（10の68乗）までが、日本語に名前のある数の単位です。'},
+{id:'sci',name:'×10の累乗（指数表記）',ok:b=>!b.T&&(b.h>1||(b.h==1&&b.t>=72)),text:'無量大数を超えたので、「1.23×10^80」のように10の何乗かで書きます。右上の小さい数（指数）が、桁数にあたります。'},
+{id:'tower',name:'塔表記 E…#…',ok:b=>!b.T&&cls(b)>=5,text:'クラス5に達しました。10の累乗を重ねた塔が高くなりすぎたので、「E1.70#5」のように書きます。E の後ろが頂上の数（1以上10未満）、# の後ろが10を重ねる段数で、E1.70#5 は 10^10^10^10^10^1.70 です。'},
+{id:'tower2',name:'塔表記 E#…（頂上を省略）',ok:b=>!b.T&&cls(b)>=10,text:'クラス10に達しました。ここまで塔が高くなると、頂上の数（1〜10）はほとんど意味を持ちません。そこで頂上を省略して、「E#12.34」のように、小数つきの段数だけを書きます。E#12.34 は、10を12.34段重ねた塔のことです（小数は、段の途中の高さを表します）。この先は、数字が増えるのは段数だけです。'},
+{id:'arrow',name:'矢印表記 3↑ⁿ3',ok:b=>b.T>=2,text:'塔の高さが 3↑↑3 = 7,625,597,484,987 段（約7.6兆段）に達しました。この数 3↑↑↑3 = 3↑↑(3↑↑3) から先は、矢印の本数で数える「クヌースの矢印表記」を使います。矢印が1本増えるたびに桁違いに巨大になります。画面の「3↑ⁿ3」の n が矢印の本数で、小数は本数の途中を表します。'},
+{id:'g',name:'グラハム列 gₘ',ok:b=>b.T>=3,text:'矢印の本数も数えきれなくなりました。g₁ = 3↑↑↑↑3 とし、g₂ は矢印が g₁ 本の 3↑…↑3、g₃ は矢印が g₂ 本…と前の数を矢印の本数にしていく列です。g₆₄ がグラハム数です。画面の gₘ は、いま何番目まで来たかの m です。'}];
+function lp(b){if(b.T==2&&b.c)return 700+(b.c.T?14+Math.min(1,b.c.t-3)*5:lp(b.c))/100;if(b.T==2)return 400+L(Math.max(b.t,1));if(b.T==3)return 700+L(Math.max(b.t,1));const g=b.h?(L(b.t)-1.1761)/13.8239:L(Math.max(b.t,1))/15;return L(1+b.h+g)}
+let mo=false;
+function pump(){if(mo||!Q.length)return;const q=Q[0];mo=true;$('mg').textContent=q.tag+(Q.length>1?'（あと'+(Q.length-1)+'件）':'');$('mt').textContent=q.t;$('mv').innerHTML=q.v;$('mb').textContent=q.b;$('ma').hidden=Q.length<2;$('mo').textContent=Q.length>1?'次へ':'閉じる';$('md').hidden=false;$('mo').focus()}
+function shut(all){Q=all?[]:Q.slice(1);mo=false;$('md').hidden=true;pump()}
+const OP=['足し算', '掛け算', '冪乗', '指数の指数', '指数の3重', '指数の4重', '指数の5重', '指数の6重', '指数の7重', '指数の8重', '塔を伸ばす', '塔をべき乗', '塔の高さの高さ', 'テトレーション', 'ペンテーション', 'ヘキセーション', 'ヘプテーション', 'オクテーション', 'ハイパー9', 'ハイパー10', 'グラハム列を進める', 'グラハム列を加速'];
+let clr=false,n={h:0,t:1},lv=Array(22).fill(0),ins=2,k=0,key='',sn=[],Q=[];lv[0]=1;
+const $=id=>document.getElementById(id);
+const cost=j=>Math.ceil((j+1)*Math.pow(1.5,lv[j]));
+const C=[0,.06,.0015,.0015,.0022,.003,.0037,.0045,.005,.0055,.0015,.0005,.0004,.0003,.0004,.001,.0007,.0007,.0007,.0007,.0014,.0008];
+const r=j=>Math.exp(C[j]*lv[j]);
+const act=j=>j<10?true:j<13?(!n.T&&cls(n)>=10):j<20?n.T==2:n.T==3;
+const gone=j=>j<10?(!!n.T||cls(n)>=(j?Math.min(j+2,10):2)):j<13?!!n.T:j<20?(n.T==3||(j>=17&&!(n.T==2&&n.c&&!n.c.T))||(n.T==2&&(j==13?n.t>=10:j==14?n.t>=1e6:j==15?n.t>=1e100:false))):(n.T==3&&(k>=E.length||(j==20?n.t>=1000:n.t>=1e6)));
+const unl=j=>j==0||j==10||j==13||j==20||lv[j-1]>0||gone(j-1);
+const why=j=>j<13?(n.T?'塔の段階を通過したため変更できません':'クラス10に達するまで変更できません'):j<20?((n.T|0)<2?'矢印の世界に入るまで変更できません':'矢印の段階を通過したため変更できません'):'グラハム列に入るまで変更できません';
+function dsc(j){const x=r(j).toFixed(3);if(j>19)return['（グラハム列で作動）g の添字が毎秒 +'+(C[20]*lv[20]).toFixed(3),'（グラハム列で作動）g の添字が毎秒 ×'+x][j-20];if(j>16){const q=j-17;return'（矢印の本数が塔のとき作動）矢印の本数の塔の高さ'+(q==0?'が毎秒 ×'+x:q==1?'を毎秒 '+x+' 乗':'に log を'+q+'回取った数が毎秒 ×'+x)}if(j>12){const q=j-13;return'（矢印の世界で作動）'+(q==0?'矢印が毎秒 +'+(C[13]*lv[13]).toFixed(3)+' 本':q==1?'矢印の本数が毎秒 ×'+x:q==2?'矢印の本数を毎秒 '+x+' 乗':'矢印の本数に log を'+(q-1)+'回取った数が毎秒 ×'+x)}if(j>9){const q=j-10;return'（クラス10以上で作動）塔の高さ'+(q==0?'が毎秒 ×'+x:q==1?'を毎秒 '+x+' 乗':'に log を'+q+'回取った数が毎秒 ×'+x)}return j==0?'毎秒 +'+fp(Math.pow(2,lv[0]-1)):j==1?'毎秒 ×'+x:j==2?'毎秒 n を '+x+' 乗':'塔の指数に log を'+(j-1)+'回取った数が毎秒 ×'+x}
+function tick(dt){
+ if(clr)return;
+ if(!n.T)n=add(n,{h:0,t:Math.pow(2,lv[0]-1)*dt});
+ if(!n.T)for(let j=1;j<10;j++)if(lv[j])n=grow(n,j-1,.4343*C[j]*lv[j]*dt);
+ if(!n.T)for(let j=10;j<13;j++)if(lv[j]&&cls(n)>=10)n=gh(n,j-10,.4343*C[j]*lv[j]*dt);
+ for(let j=13;j<20;j++)if(lv[j]&&n.T==2)n=ga(n,j,dt);
+ for(let j=20;j<22;j++)if(lv[j]&&n.T==3)n=gt(n,j,.4343*C[j]*lv[j]*dt);
+ if(n.T==3&&n.t>=64)n={T:3,t:64};
+ ins+=dt*(1+k*.5)/60;
+ NT.forEach(x=>{if(!sn.includes(x.id)&&x.ok(n)){sn.push(x.id);Q.push({tag:'新しい表記法',t:x.name,v:'',b:x.text})}});
+ while(k<E.length&&cmp(n,E[k].v)>=0){ins++;note('発見：'+E[k].n+'　ひらめき +1');if(E[k].d)Q.push({tag:'数の図鑑に追加',t:E[k].n,v:fm(E[k].v),b:E[k].d});k++;key=''}
+ if(n.T==3&&n.t>=64&&!clr){clr=true;key='';Q.push({tag:'ゲームクリア',t:'グラハム数 g₆₄ に到達しました！',v:'g<sub>64</sub>',b:'おめでとうございます。矢印の本数を64段階で増やした、グラハム数にたどり着きました。数を数える旅はここで終わりです。'})}
+}
+let tm;function note(s){$('nt').textContent=s;clearTimeout(tm);tm=setTimeout(()=>$('nt').textContent='',5000)}
+function draw(){
+ $('num').innerHTML=fm(n);
+ {const c=n.T?-1:cls(n),sh=c>=0&&c<1000;$('cls').hidden=!sh;if(sh)$('cls').textContent='クラス '+c+'（ムナフォの分類）'}
+ const p=Math.floor(ins),fr=ins-p,sc=Math.ceil((1-fr)/((1+k*.5)/60));$('ins').textContent='ひらめき '+p;$('pgb').style.width=(fr*100).toFixed(1)+'%';$('pgt').textContent=clr?'ゲームクリア！ グラハム数に到達しました':'次のひらめきまで あと'+(sc>=60?Math.floor(sc/60)+'分'+sc%60+'秒':sc+'秒');
+ const st=n.T?n.T:(cls(n)>=10?'h':'0'),kk=lv.join()+p+k+st+OP.map((_,j)=>+act(j)).join('')+(n.c?(n.c.T?2:1):0)+OP.map((_,j)=>+gone(j)).join('');
+ if(kk!=key){key=kk;
+  $('ops').innerHTML=OP.map((o,j)=>{if(gone(j)||!act(j)||(!unl(j)&&j&&!unl(j-1)))return'';const un=unl(j),ok=act(j),has=lv[j]||j==0;return'<div class="op'+(un?'':' off')+'"><div><b>'+o+'</b>　Lv '+lv[j]+'<div class="d">'+(un?(has?dsc(j):'未習得')+(ok?'':'<br><span class="why">'+why(j)+'</span>'):'直前の演算を習得すると開放')+'</div></div>'+(un?'<button class="btn" data-j="'+j+'"'+(clr||p<cost(j)||!ok?' disabled':'')+'>'+(lv[j]?'強化':'習得')+' '+cost(j)+'</button>':'')+'</div>'}).join('');
+  $('nx').innerHTML=k<E.length?'？？？　<span style="font-family:STIX Two Text,serif">'+fm(E[k].v)+'</span> に到達すると発見':'図鑑をすべて集めました。';
+  $('cx').innerHTML='<div class="u">'+E.slice(0,k).filter(e=>!e.d).map(e=>'<span>'+e.n+'</span>').join('')+'</div>'+E.slice(0,k).filter(e=>e.d).reverse().map(e=>'<div class="e"><b>'+e.n+'</b><span class="v">'+fm(e.v)+'</span><p>'+e.d+'</p></div>').join('')}
+ {const nb=$('nb');if(k<E.length){const a=k?lp(E[k-1].v):0,b=lp(E[k].v),c=b>a?Math.min(1,Math.max(0,(lp(n)-a)/(b-a))):0;nb.style.width=(c*100).toFixed(1)+'%';$('np').textContent='次の発見まで '+Math.floor(c*100)+'%'}else{nb.style.width='100%';$('np').textContent='図鑑コンプリート'}}
+ pump();
+}
+$('ops').onclick=ev=>{const b=ev.target.closest('button');if(!b)return;const j=+b.dataset.j,c=cost(j);if(!clr&&act(j)&&unl(j)&&!gone(j)&&ins>=c){ins-=c;lv[j]++;key=''}draw()};
+try{const s=JSON.parse(localStorage.getItem('kd1'));if(s&&s.n&&(s.n.t>=0||s.n.H)){n=s.n;if(s.ver<5&&n.T)n={T:n.T+1,t:n.t};if(n.T==1&&n.H)n={T:2,t:Math.min(4,3+(n.H.h-1)/7)};const o=s.lv||[];lv=lv.map((_,i)=>{const q=s.ver>=2?i:(i<15?i:(i>19?i-5:-1));return Math.max(+o[q]||0,i?0:1)});ins=+s.ins||0;k=Math.min(+s.k||0,E.length);if(s.ver<6){k=0;while(k<E.length&&cmp(n,E[k].v)>=0)k++}clr=!!s.clr;sn=Array.isArray(s.sn)?s.sn:NT.filter(x=>x.ok(n)).map(x=>x.id);}}catch(e){}
+$('mo').onclick=()=>shut(false);$('ma').onclick=()=>shut(true);
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&mo)shut(false)});
+const rv=(a,b)=>{$('rs').hidden=a;$('rc').hidden=b};
+$('rs').onclick=()=>rv(true,false);$('rn').onclick=()=>rv(false,true);
+$('ry').onclick=()=>{clr=false;n={h:0,t:1};lv=Array(22).fill(0);lv[0]=1;ins=2;k=0;key='';sn=[];Q=[];try{localStorage.removeItem('kd1')}catch(e){}rv(false,true);note('データを消去しました');draw()};
+let last=performance.now();
+setInterval(()=>{const t=performance.now();tick(Math.min((t-last)/1000,1));last=t;draw()},100);
+setInterval(()=>{try{localStorage.setItem('kd1',JSON.stringify({n,lv,ins,k,ver:6,clr,sn,at:Date.now()}))}catch(e){}},5000);
+draw();
+</script>
+</body>
+</html>
+
+</body></html>
